@@ -125,8 +125,8 @@
   }
   @media (prefers-reduced-motion:reduce){
     html{scroll-behavior:auto}
-    .tunnel{display:none}
-    *{transition:none !important}
+    
+    .tunnel{display:block !important}
   }
 </style>
 </head>
@@ -312,9 +312,9 @@
 
 <script>
 (function(){
-  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var reduce = { matches: false };
+  try{ if(window.matchMedia) reduce = window.matchMedia('(prefers-reduced-motion: reduce)'); }catch(e){}
 
-  
   var buttons = document.querySelectorAll('.lang button');
   function setLang(lang){
     document.documentElement.lang = lang;
@@ -332,7 +332,6 @@
     else if((navigator.language || '').toLowerCase().indexOf('fr') === 0) setLang('fr');
   }catch(e){}
 
-  
   document.querySelectorAll('[data-goto]').forEach(function(el){
     function go(){
       var target = document.querySelector('[data-section="' + el.getAttribute('data-goto') + '"]');
@@ -345,7 +344,6 @@
     });
   });
 
-  
   var canvas = document.querySelector('.tunnel');
   var ctx = canvas.getContext('2d', { alpha: false });
   var W = 0, H = 0, DPR = 1, small = false;
@@ -355,6 +353,7 @@
 
   var foil = { x:0, y:0, tx:0, ty:0, rx:0, ry:0 };
   var t = 0;
+  var frames = 0;
   var idle = true;              
 
   function size(){
@@ -427,6 +426,7 @@
     last = now;
     if(dt > 0.05) dt = 0.05;        
     t += dt;
+    frames++;
 
     if(idle){
       foil.tx = W * 0.64 + Math.sin(t * 0.17) * W * 0.055;
@@ -483,7 +483,7 @@
   }
 
   function start(){
-    if(running || reduce.matches) return;
+    if(running) return;
     running = true; last = 0;
     rafId = requestAnimationFrame(step);
   }
@@ -492,61 +492,72 @@
     cancelAnimationFrame(rafId);
   }
 
-  window.addEventListener('pointermove', function(e){
+
+  var rt, lastW = 0, lastH = 0;
+
+  function maybeResize(force){
+    var w = canvas.clientWidth || window.innerWidth;
+    var h = canvas.clientHeight || window.innerHeight;
+    if(!force && w === lastW && Math.abs(h - lastH) < 120) return;
+    lastW = w; lastH = h;
+    size();
+  }
+
+  function boot(){
+    try{
+      canvas.style.display = 'block';
+      lastW = canvas.clientWidth || window.innerWidth;
+      lastH = canvas.clientHeight || window.innerHeight;
+      size();
+      start();
+    }catch(e){}
+  }
+
+  boot();
+
+  setTimeout(function(){ if(!frames){ stop(); boot(); } }, 900);
+  setTimeout(function(){ if(!frames){ stop(); boot(); } }, 2600);
+
+  function on(target, type, fn){
+    try{ target.addEventListener(type, fn, { passive: true }); }
+    catch(e){ try{ target.addEventListener(type, fn, false); }catch(e2){} }
+  }
+
+  on(window, 'pointermove', function(e){
     if(e.pointerType === 'touch') return;
     idle = false;
     foil.tx = W * 0.64 + (e.clientX - W / 2) * 0.055;
     foil.ty = H * 0.50 + (e.clientY - H / 2) * 0.085;
-  }, { passive: true });
+  });
 
   var touchTimer;
-  window.addEventListener('touchmove', function(e){
-    var p = e.touches[0];
+  on(window, 'touchmove', function(e){
+    var p = e.touches && e.touches[0];
     if(!p) return;
     idle = false;
     foil.tx = W * 0.64 + (p.clientX - W / 2) * 0.06;
     foil.ty = H * 0.50 + (p.clientY - H / 2) * 0.09;
     clearTimeout(touchTimer);
     touchTimer = setTimeout(function(){ idle = true; }, 2200);
-  }, { passive: true });
+  });
 
   
-  var rt, lastW = 0, lastH = 0;
-  function maybeResize(){
-    var w = canvas.clientWidth, h = canvas.clientHeight;
-    if(w === lastW && Math.abs(h - lastH) < 120) return;
-    lastW = w; lastH = h;
-    size();
-  }
-  window.addEventListener('resize', function(){
+  on(window, 'resize', function(){
     clearTimeout(rt);
-    rt = setTimeout(maybeResize, 160);
-  }, { passive: true });
-  window.addEventListener('orientationchange', function(){
+    rt = setTimeout(function(){ maybeResize(false); }, 160);
+  });
+  on(window, 'orientationchange', function(){
     clearTimeout(rt);
-    rt = setTimeout(function(){ lastW = 0; maybeResize(); }, 260);
-  }, { passive: true });
-
-  document.addEventListener('visibilitychange', function(){
-    if(document.hidden) stop(); else start();
-  });
-  window.addEventListener('pageshow', function(){ start(); });
-
-  reduce.addEventListener('change', function(){
-    if(reduce.matches){ stop(); canvas.style.display = 'none'; }
-    else { canvas.style.display = ''; lastW = 0; maybeResize(); start(); }
+    rt = setTimeout(function(){ maybeResize(true); }, 280);
   });
 
-  function boot(){
-    if(reduce.matches) return;
-    lastW = canvas.clientWidth; lastH = canvas.clientHeight;
-    size();
-    start();
-  }
-  boot();
-  window.addEventListener('load', function(){
-    lastW = 0; maybeResize(); start();
+  on(document, 'visibilitychange', function(){
+    if(document.hidden) stop(); else { start(); }
   });
+  on(window, 'pageshow', function(){ boot(); });
+  on(window, 'load', function(){ maybeResize(true); start(); });
+  on(window, 'focus', function(){ start(); });
+
 })();
 </script>
 </body>
