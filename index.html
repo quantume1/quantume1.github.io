@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Alaa Zid</title>
 <meta name="description" content="Business administration student. I run an online retail business on my own and build the automation behind it.">
 <meta property="og:title" content="Alaa Zid">
@@ -33,15 +33,26 @@
     -webkit-font-smoothing:antialiased;
     overflow-x:hidden;
   }
-  canvas#tunnel{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+
+  
+  .tunnel{
+    position:fixed;
+    top:0;left:0;
+    width:100vw;
+    height:100vh;
+    height:100lvh;
+    z-index:0;
+    pointer-events:none;
+  }
   .page{position:relative;z-index:1}
   .wrap{width:min(1080px,92vw);margin:0 auto}
+  [data-section]{scroll-margin-top:88px}
 
   nav{position:sticky;top:0;z-index:5;background:rgba(16,13,12,.82);border-bottom:1px solid var(--line);backdrop-filter:blur(8px)}
   .nav-in{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:14px 0}
   .mark{font-size:20px;letter-spacing:.02em;font-weight:900}
   .nav-links{display:flex;gap:26px;align-items:center;font-size:16px;font-weight:500}
-  .nav-links a{color:var(--muted);text-decoration:none;padding:4px 0;border-bottom:1px solid transparent;transition:color .25s ease,border-color .25s ease}
+  .nav-links a{color:var(--muted);text-decoration:none;cursor:pointer;padding:4px 0;border-bottom:1px solid transparent;transition:color .25s ease,border-color .25s ease}
   .nav-links a:hover,.nav-links a:focus-visible{color:var(--ivory);border-bottom-color:var(--oxblood)}
   .lang{display:flex;border:1px solid var(--line)}
   .lang button{font:inherit;font-size:15px;background:none;border:0;color:var(--muted);padding:4px 11px;cursor:pointer;transition:background .25s ease,color .25s ease}
@@ -53,7 +64,7 @@
   .role{font-size:clamp(20px,2.4vw,27px);margin:0 0 24px;font-weight:500}
   .lede{max-width:var(--measure);color:var(--muted);margin:0 0 38px}
   .actions{display:flex;flex-wrap:wrap;gap:14px}
-  .btn{display:inline-block;font:inherit;font-size:17px;text-decoration:none;padding:13px 24px;border:1px solid var(--oxblood);color:var(--ivory);background:var(--oxblood);transition:background .25s ease,color .25s ease,border-color .25s ease}
+  .btn{display:inline-block;font:inherit;font-size:17px;text-decoration:none;cursor:pointer;padding:13px 24px;border:1px solid var(--oxblood);color:var(--ivory);background:var(--oxblood);transition:background .25s ease,color .25s ease,border-color .25s ease}
   .btn.ghost{background:none;color:var(--ivory);border-color:var(--line)}
   .btn:hover{background:var(--ivory);color:var(--ink);border-color:var(--ivory)}
 
@@ -73,8 +84,7 @@
     font-feature-settings:"lnum" 1,"tnum" 1;
     display:flex;align-items:center;gap:.28em;
   }
-  .metric .n em{font-size:.68em;position:relative;top:-.02em}
-  .metric .n em{font-style:normal;color:var(--oxblood)}
+  .metric .n em{font-size:.68em;position:relative;top:-.02em;font-style:normal;color:var(--oxblood)}
   .metric .t{color:var(--muted);font-size:16px;margin-top:8px}
 
   .caps{display:grid;grid-template-columns:repeat(2,1fr);gap:34px 48px}
@@ -115,23 +125,23 @@
   }
   @media (prefers-reduced-motion:reduce){
     html{scroll-behavior:auto}
-    canvas#tunnel{display:none}
+    .tunnel{display:none}
     *{transition:none !important}
   }
 </style>
 </head>
 <body>
-<canvas id="tunnel" aria-hidden="true"></canvas>
+<canvas class="tunnel" aria-hidden="true"></canvas>
 
 <div class="page">
 <nav>
   <div class="wrap nav-in">
     <div class="mark">Alaa Zid</div>
     <div class="nav-links">
-      <a href="#capabilities" data-nav data-en="What I do" data-fr="Ce que je fais">What I do</a>
-      <a href="#work" data-nav data-en="What I built" data-fr="Ce que j'ai bâti">What I built</a>
-      <a href="#background" data-nav data-en="Where I'm from" data-fr="D'où je viens">Where I'm from</a>
-      <a href="#contact" data-nav data-en="Say hi" data-fr="Écris-moi">Say hi</a>
+      <a role="link" tabindex="0" data-goto="capabilities" data-nav data-en="What I do" data-fr="Ce que je fais">What I do</a>
+      <a role="link" tabindex="0" data-goto="work" data-nav data-en="What I built" data-fr="Ce que j'ai bâti">What I built</a>
+      <a role="link" tabindex="0" data-goto="background" data-nav data-en="Where I'm from" data-fr="D'où je viens">Where I'm from</a>
+      <a role="link" tabindex="0" data-goto="contact" data-nav data-en="Say hi" data-fr="Écris-moi">Say hi</a>
       <div class="lang">
         <button type="button" data-lang="en" aria-pressed="true">EN</button>
         <button type="button" data-lang="fr" aria-pressed="false">FR</button>
@@ -146,11 +156,11 @@
   <p class="role" data-en="I study business and run an online store on the side." data-fr="J'étudie en administration et je gère une boutique en ligne à côté.">I study business and run an online store on the side.</p>
   <p class="lede" data-en="All of it is mine: the site, the code behind it, the marketing, the numbers, the customers. When something is slow or breaks, I don't hand it to someone else. I open it up, figure out why, and fix it. That's basically how I learned everything on this page." data-fr="Tout est à moi : le site, le code derrière, le marketing, les chiffres, les clients. Quand quelque chose plante ou traîne, je ne le refile à personne. J'ouvre, je comprends pourquoi, et je répare. C'est comme ça que j'ai appris tout ce qu'il y a sur cette page.">All of it is mine: the site, the code behind it, the marketing, the numbers, the customers. When something is slow or breaks, I don't hand it to someone else. I open it up, figure out why, and fix it. That's basically how I learned everything on this page.</p>
   <div class="actions">
-    <a class="btn" href="#contact" data-en="Say hi" data-fr="Écris-moi">Say hi</a>
+    <a class="btn" role="link" tabindex="0" data-goto="contact" data-en="Say hi" data-fr="Écris-moi">Say hi</a>
   </div>
 </header>
 
-<section class="wrap" id="results">
+<section class="wrap" data-section="results">
   <h2 data-en="Some numbers" data-fr="Quelques chiffres">Some numbers</h2>
   <p class="sub" data-en="Things I actually did, not things I read about." data-fr="Des trucs que j'ai vraiment faits, pas des trucs que j'ai lus.">Things I actually did, not things I read about.</p>
   <div class="metrics">
@@ -169,7 +179,7 @@
   </div>
 </section>
 
-<section class="wrap" id="capabilities">
+<section class="wrap" data-section="capabilities">
   <h2 data-en="What I do" data-fr="Ce que je fais">What I do</h2>
   <p class="sub" data-en="Everything here I use every week. Nothing on this list is from a syllabus." data-fr="Tout ça, je m'en sers chaque semaine. Rien ici ne vient d'un plan de cours.">Everything here I use every week. Nothing on this list is from a syllabus.</p>
   <div class="caps">
@@ -200,7 +210,7 @@
   </div>
 </section>
 
-<section class="wrap" id="work">
+<section class="wrap" data-section="work">
   <h2 data-en="What I built" data-fr="Ce que j'ai bâti">What I built</h2>
   <p class="sub" data-en="Four systems I designed and shipped for my own store." data-fr="Quatre systèmes que j'ai conçus et livrés pour ma propre boutique.">Four systems I designed and shipped for my own store.</p>
   <div class="work">
@@ -252,7 +262,7 @@
   </div>
 </section>
 
-<section class="wrap" id="background">
+<section class="wrap" data-section="background">
   <h2 data-en="Where I'm from" data-fr="D'où je viens">Where I'm from</h2>
   <p class="sub" data-en="Business degree on paper, engineer by habit." data-fr="Un diplôme en administration sur papier, un ingénieur par habitude.">Business degree on paper, engineer by habit.</p>
   <div class="edu">
@@ -280,12 +290,12 @@
   </div>
 </section>
 
-<section class="wrap" id="aero">
+<section class="wrap" data-section="aero">
   <h2 data-en="About the moving lines" data-fr="À propos des lignes qui bougent">About the moving lines</h2>
   <p class="aero" data-en="That's a wind tunnel behind the page. The air splits around a wing you can't see. I'm deep into Formula 1 aerodynamics, and not in a watch-on-Sunday way. Downforce against drag, ground effect, how changing one line in the rulebook forces ten teams to redraw the floor of the car. It's the same itch as taking apart a slow website: I want to know why it behaves the way it does before I touch anything." data-fr="C'est une soufflerie derrière la page. L'air se sépare autour d'une aile que tu ne vois pas. Je suis à fond dans l'aérodynamique de la Formule 1, et pas juste pour regarder le dimanche. L'appui contre la traînée, l'effet de sol, comment changer une ligne dans le règlement force dix écuries à redessiner le fond de la voiture. C'est la même démangeaison que démonter un site lent : je veux savoir pourquoi il se comporte comme ça avant de toucher à quoi que ce soit.">That's a wind tunnel behind the page. The air splits around a wing you can't see. I'm deep into Formula 1 aerodynamics, and not in a watch-on-Sunday way. Downforce against drag, ground effect, how changing one line in the rulebook forces ten teams to redraw the floor of the car. It's the same itch as taking apart a slow website: I want to know why it behaves the way it does before I touch anything.</p>
 </section>
 
-<section class="wrap" id="contact">
+<section class="wrap" data-section="contact">
   <h2 data-en="Say hi" data-fr="Écris-moi">Say hi</h2>
   <p class="sub" data-en="Open to remote work. Email gets the fastest answer." data-fr="Disponible pour du travail à distance. Le courriel obtient la réponse la plus rapide.">Open to remote work. Email gets the fastest answer.</p>
   <div class="contact-grid">
@@ -302,7 +312,9 @@
 
 <script>
 (function(){
-  /* ---------------- language ---------------- */
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  
   var buttons = document.querySelectorAll('.lang button');
   function setLang(lang){
     document.documentElement.lang = lang;
@@ -320,43 +332,56 @@
     else if((navigator.language || '').toLowerCase().indexOf('fr') === 0) setLang('fr');
   }catch(e){}
 
-  /* ---------------- wind tunnel ---------------- */
-  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
-  var canvas = document.getElementById('tunnel');
+  
+  document.querySelectorAll('[data-goto]').forEach(function(el){
+    function go(){
+      var target = document.querySelector('[data-section="' + el.getAttribute('data-goto') + '"]');
+      if(!target) return;
+      target.scrollIntoView({ behavior: reduce.matches ? 'auto' : 'smooth', block: 'start' });
+    }
+    el.addEventListener('click', go);
+    el.addEventListener('keydown', function(e){
+      if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); go(); }
+    });
+  });
+
+  
+  var canvas = document.querySelector('.tunnel');
   var ctx = canvas.getContext('2d', { alpha: false });
-  var W = 0, H = 0, DPR = 1;
+  var W = 0, H = 0, DPR = 1, small = false;
   var parts = [];
   var running = false, rafId = 0;
   var last = 0;
 
-  /* airfoil, plus an eased target so it drifts toward the pointer */
   var foil = { x:0, y:0, tx:0, ty:0, rx:0, ry:0 };
   var t = 0;
+  var idle = true;              
 
   function size(){
-    DPR = Math.min(window.devicePixelRatio || 1, 2);
-    W = window.innerWidth; H = window.innerHeight;
+    
+    W = canvas.clientWidth || window.innerWidth;
+    H = canvas.clientHeight || window.innerHeight;
+    small = W < 760;
+    DPR = Math.min(window.devicePixelRatio || 1, small ? 1.75 : 2);
     canvas.width = Math.round(W * DPR);
     canvas.height = Math.round(H * DPR);
-    canvas.style.width = W + 'px';
-    canvas.style.height = H + 'px';
     ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
     foil.tx = W * 0.64; foil.ty = H * 0.50;
     foil.x = foil.tx; foil.y = foil.ty;
-    foil.rx = Math.max(150, W * 0.16);
-    foil.ry = Math.max(30, H * 0.065);
+    foil.rx = Math.max(small ? 105 : 150, W * 0.16);
+    foil.ry = Math.max(small ? 26 : 30, H * 0.065);
     ctx.fillStyle = '#100D0C';
     ctx.fillRect(0, 0, W, H);
     seed();
   }
 
   function seed(){
-    var count = Math.round(Math.min(420, Math.max(120, (W * H) / 4200)));
+    var cap = small ? 240 : 420;
+    var count = Math.round(Math.min(cap, Math.max(small ? 150 : 120, (W * H) / (small ? 1700 : 4200))));
     parts = new Array(count);
     for(var i = 0; i < count; i++) parts[i] = make(true);
   }
 
-  /* depth: z near 0 is far (thin, slow, faint), near 1 is close */
   function make(anywhere){
     var z = Math.pow(Math.random(), 1.5);
     return {
@@ -364,15 +389,14 @@
       y: Math.random() * H,
       z: z,
       vx: 1, vy: 0,
-      sp: 26 + z * 78,
-      a: 0.05 + z * 0.30,
-      w: 0.5 + z * 1.5,
+      sp: (26 + z * 78) * (small ? 0.72 : 1),
+      a: 0.05 + z * (small ? 0.36 : 0.30),
+      w: 0.5 + z * (small ? 1.7 : 1.5),
       life: 0,
       max: 5 + Math.random() * 9
     };
   }
 
-  /* velocity field: uniform flow deflected around an ellipse, plus slow swirl */
   function field(x, y, out){
     var dx = (x - foil.x) / foil.rx;
     var dy = (y - foil.y) / foil.ry;
@@ -382,13 +406,12 @@
     if(d2 < 16){
       var g = 1 / (d2 + 0.45);
       var sign = dy >= 0 ? 1 : -1;
-      vy += sign * g * 0.52;          /* push away from the surface */
-      vx += g * 0.40;                 /* speed up over the wing */
-      vy -= dy * g * 0.14;            /* pull the wake back to centre */
-      if(dx > 0) vy += sign * g * 0.10; /* trailing-edge deflection */
+      vy += sign * g * 0.52;          
+      vx += g * 0.40;                 
+      vy -= dy * g * 0.14;            
+      if(dx > 0) vy += sign * g * 0.10; 
     }
 
-    /* two slow sine layers keep the field alive without looking wobbly */
     vy += Math.sin(x * 0.0032 + t * 0.28) * 0.075;
     vy += Math.sin(y * 0.0090 - t * 0.19) * 0.045;
 
@@ -402,14 +425,17 @@
     if(!last) last = now;
     var dt = (now - last) / 1000;
     last = now;
-    if(dt > 0.05) dt = 0.05;        /* clamp after a tab switch */
+    if(dt > 0.05) dt = 0.05;        
     t += dt;
 
-    /* ease the wing toward its target so pointer motion never snaps */
+    if(idle){
+      foil.tx = W * 0.64 + Math.sin(t * 0.17) * W * 0.055;
+      foil.ty = H * 0.50 + Math.sin(t * 0.11 + 1.3) * H * 0.085;
+    }
+
     foil.x += (foil.tx - foil.x) * Math.min(1, dt * 2.2);
     foil.y += (foil.ty - foil.y) * Math.min(1, dt * 2.2);
 
-    /* fade the previous frame instead of clearing: this is what makes the trails silky */
     ctx.globalCompositeOperation = 'source-over';
     ctx.fillStyle = 'rgba(16,13,12,0.085)';
     ctx.fillRect(0, 0, W, H);
@@ -421,7 +447,6 @@
       var p = parts[i];
       field(p.x, p.y, f);
 
-      /* ease velocity toward the field: no sharp corners, ever */
       var k = Math.min(1, dt * 3.4);
       p.vx += (f[0] - p.vx) * k;
       p.vy += (f[1] - p.vy) * k;
@@ -431,7 +456,6 @@
       p.y += p.vy * p.sp * dt;
       p.life += dt;
 
-      /* fade in at birth and out at death so nothing pops */
       var age = p.life / p.max;
       var fade = age < 0.12 ? age / 0.12 : (age > 0.82 ? (1 - age) / 0.18 : 1);
       if(fade < 0) fade = 0;
@@ -468,28 +492,61 @@
     cancelAnimationFrame(rafId);
   }
 
-  /* pointer nudges the wing a little, so the flow reacts to you */
   window.addEventListener('pointermove', function(e){
+    if(e.pointerType === 'touch') return;
+    idle = false;
     foil.tx = W * 0.64 + (e.clientX - W / 2) * 0.055;
     foil.ty = H * 0.50 + (e.clientY - H / 2) * 0.085;
   }, { passive: true });
 
-  var rt;
+  var touchTimer;
+  window.addEventListener('touchmove', function(e){
+    var p = e.touches[0];
+    if(!p) return;
+    idle = false;
+    foil.tx = W * 0.64 + (p.clientX - W / 2) * 0.06;
+    foil.ty = H * 0.50 + (p.clientY - H / 2) * 0.09;
+    clearTimeout(touchTimer);
+    touchTimer = setTimeout(function(){ idle = true; }, 2200);
+  }, { passive: true });
+
+  
+  var rt, lastW = 0, lastH = 0;
+  function maybeResize(){
+    var w = canvas.clientWidth, h = canvas.clientHeight;
+    if(w === lastW && Math.abs(h - lastH) < 120) return;
+    lastW = w; lastH = h;
+    size();
+  }
   window.addEventListener('resize', function(){
     clearTimeout(rt);
-    rt = setTimeout(size, 140);
+    rt = setTimeout(maybeResize, 160);
+  }, { passive: true });
+  window.addEventListener('orientationchange', function(){
+    clearTimeout(rt);
+    rt = setTimeout(function(){ lastW = 0; maybeResize(); }, 260);
   }, { passive: true });
 
   document.addEventListener('visibilitychange', function(){
     if(document.hidden) stop(); else start();
   });
+  window.addEventListener('pageshow', function(){ start(); });
 
   reduce.addEventListener('change', function(){
     if(reduce.matches){ stop(); canvas.style.display = 'none'; }
-    else { canvas.style.display = ''; size(); start(); }
+    else { canvas.style.display = ''; lastW = 0; maybeResize(); start(); }
   });
 
-  if(!reduce.matches){ size(); start(); }
+  function boot(){
+    if(reduce.matches) return;
+    lastW = canvas.clientWidth; lastH = canvas.clientHeight;
+    size();
+    start();
+  }
+  boot();
+  window.addEventListener('load', function(){
+    lastW = 0; maybeResize(); start();
+  });
 })();
 </script>
 </body>
